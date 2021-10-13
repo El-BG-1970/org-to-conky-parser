@@ -2,10 +2,8 @@ UNAME := $(shell uname)
 
 ifeq ($(UNAME), Linux)
 CC=clang --std=gnu99
-CXX=clang --std=gnu++11
 else
 CC=clang --std=c99
-CXX=clang --std=c++11
 endif
 
 CFLAGS=-Wall -Wextra -Werror -g
