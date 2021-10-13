@@ -1,0 +1,5 @@
+*.o
+otc
+valgrind*
+massif*
+*.org
