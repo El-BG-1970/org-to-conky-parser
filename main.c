@@ -73,15 +73,20 @@ int main(int argc, char **argv) {
     // format nicely
     char *e;
     Date td = today();
+    Date tm = tomorrow(td);
     Date nw = nextweek(td);
-    Date last_date = (struct Date){ -1, -1, -1 };//agenda[0].date;
+    Date last_date = (struct Date){ -1, -1, -1 };
     for (int i = 0; i < idx; i++) {
         if (!eql(agenda[i].date, last_date)) {
             last_date = agenda[i].date;
             if (!zero(last_date)) {
                 e = print_date_to_string(last_date);
-                if (smaller(last_date, td))
+                if (strictly_smaller(last_date, td))
                     printf("\n%s [OUTATIME]:\n", e);
+                else if (eql(last_date, td))
+                    printf("\n%s [TODAY]:\n", e);
+                else if (eql(last_date, tm))
+                    printf("\n%s [TOMORROW]:\n", e);
                 else if (smaller(last_date, nw))
                     printf("\n%s:\n", e);
                 free(e);

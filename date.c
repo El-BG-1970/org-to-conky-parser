@@ -20,6 +20,14 @@ bool smaller(Date a, Date b) {
 			((a.year == b.year) && (a.month == b.month) && (a.day <= b.day)));
 }
 
+bool strictly_smaller(Date a, Date b) {
+	if (zero(b)) return true;
+	if (zero(a)) return false;
+	return ((a.year < b.year) ||
+			((a.year == b.year) && (a.month < b.month)) ||
+			((a.year == b.year) && (a.month == b.month) && (a.day < b.day)));
+}
+
 bool eql(Date a, Date b) {
 	return (a.day == b.day) &&
 		(a.month == b.month) &&
@@ -51,6 +59,29 @@ Date today() {
 	pclose(pipe);
 	free(td);
 	return ret;
+}
+
+Date tomorrow(Date td) {
+	Date tm = { td.day+1, td.month, td.year };
+	if (tm.month == FEB && tm.day > 28) {
+		if (tm.year % 4 == 0 && tm.day > 29) {
+			tm.day -= 29; tm.month++;
+		} else {
+			tm.day -= 28; tm.month++;
+		}
+    } else if (tm.month == JAN || tm.month == MAR || tm.month == MAY || tm.month == JUL ||
+            tm.month == AUG || tm.month == OCT || tm.month == DEC) {
+        if (tm.day > 31 && tm.month == DEC) {
+            tm.day -= 31; tm.month = 1;
+        } else if (tm.day > 31) {
+            tm.day -= 31; tm.month++;
+        }
+    } else if (tm.month == APR || tm.month == JUN || tm.month == SEP || tm.month == NOV) {
+        if (tm.day > 30) {
+            tm.day -= 30; tm.month++;
+        }
+    }
+    return tm;
 }
 
 Date nextweek(Date td) {
