@@ -3,3 +3,4 @@ otc
 valgrind*
 massif*
 *.org
+.ccls-cache
