@@ -1,10 +1,10 @@
-UNAME := $(shell uname)
+UNAME := $$( uname -s )
 
-ifeq ($(UNAME), Linux)
+.if ${UNAME} == "Linux"
 CC=clang --std=gnu99
-else
+.else
 CC=clang --std=c99
-endif
+.endif
 
 CFLAGS=-Wall -Wextra -Werror -g
 LIBS=
