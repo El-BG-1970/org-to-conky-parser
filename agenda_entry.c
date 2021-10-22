@@ -1,3 +1,4 @@
+#include "utils.h"
 #include "agenda_entry.h"
 
 char *next_word(char *str) { return strstr(str, " ")+1; }
@@ -24,7 +25,7 @@ entry read_agenda_entry(char *agenda) {
 	//find out if there is a tag, and extract it
 	lookahead = strstr(cursor, ":\n");
 	if (lookahead && (lookahead < nextentry)) {
-		tmp = strstr(cursor, ":");
+		tmp = rstrchr(cursor, lookahead-1, ':');
 		agenda_entry.tag = (char *)malloc(lookahead - tmp);
 		strncpy(agenda_entry.tag, tmp+1, lookahead - tmp - 1);
 		agenda_entry.tag[lookahead - tmp - 1] = '\0'; // here we're actually modifying lookahead-tmp cause the array is zero indexed
