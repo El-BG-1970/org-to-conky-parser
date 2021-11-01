@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <fcntl.h>
 #include "agenda_entry.h"
 #define BS 100 //blocksize for buffers
 
@@ -10,13 +11,14 @@ void destroy_entry_array(entry *array, int elements) {
 }
 
 char *read_file_to_buffer(char *filename) {
-    FILE *fd = fopen(filename, "r");
+    int fd = open(filename, O_RDONLY);
+	if (fd < 0) return NULL; // if error opening file, return NULLptr
     int bufsize = BS,
         bufread = 0;
     char *buf = (char *)malloc(bufsize);
     char *newbuf;
 
-    while (fread(buf + bufread, 1, 100, fd) == BS) {
+    while (read(fd, buf + bufread, 100) == BS) {
         newbuf = (char *)malloc(bufsize + BS);
         strncpy(newbuf, buf, bufsize);
         free(buf);
@@ -24,11 +26,10 @@ char *read_file_to_buffer(char *filename) {
         bufsize += BS;
         bufread += BS;
     }
-    fclose(fd);
+	close(fd);
     return buf;
 }
 
-// this function does not work... to debug!
 entry *read_entries_to_array(char *buffer, int *entries) {
     int numentries = 5,
         idx = 0;
@@ -60,6 +61,10 @@ int main(int argc, char **argv) {
 
     // read file into buf 
     char *buf = read_file_to_buffer(argv[1]);
+	if (!buf){ // abort if file could not be opened
+	  fprintf(stderr, "Error: file \"%s\" does not exist!\n", argv[1]);
+	  return -1;
+	}
     if (strlen(buf) == 0) return -1; // don't do empty buffers
 
     // read entries into array
