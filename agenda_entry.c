@@ -71,13 +71,10 @@ char *format_entry(entry e) {
 void sort_entry_array(entry *arr, int n) {
     if (n == 1) return;
 
-    merge_sort_entry_array(arr,n);
-    return;
-
-    int halfway = n/2;
     if (n <= 32) {
         insertion_sort_entry_array(arr, n);
     } else {
+        int halfway = n/2;
         if (halfway <= 32) {
             insertion_sort_entry_array(arr, halfway);
             insertion_sort_entry_array(arr+halfway, n - halfway);
