@@ -1,8 +1,8 @@
 CC=clang --std=gnu99
 
-CFLAGS=-Wall -Wextra -Werror# -g -pg
+CFLAGS=-Wall -Wextra -Werror -g# -pg
 LIBS=
-BLDFLAGS=-O2# -g -pg
+BLDFLAGS=-O2 -g# -pg
 
 TARGET=otc
 DEPS=main.c agenda_entry.c date.c

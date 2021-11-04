@@ -69,7 +69,24 @@ char *format_entry(entry e) {
 }
 
 void sort_entry_array(entry *arr, int n) {
-    merge_sort_entry_array(arr, n);
+    if (n == 1) return;
+
+    merge_sort_entry_array(arr,n);
+    return;
+
+    int halfway = n/2;
+    if (n <= 32) {
+        insertion_sort_entry_array(arr, n);
+    } else {
+        if (halfway <= 32) {
+            insertion_sort_entry_array(arr, halfway);
+            insertion_sort_entry_array(arr+halfway, n - halfway);
+        } else {
+            sort_entry_array(arr, halfway);
+            sort_entry_array(arr+halfway, n - halfway);
+        }
+        merge_entry_array(arr, halfway, n);
+    }
 }
 
 void merge_sort_entry_array(entry *arr, int n) {
@@ -80,6 +97,22 @@ void merge_sort_entry_array(entry *arr, int n) {
     merge_sort_entry_array(arr+halfway, n - halfway);
 
     merge_entry_array(arr, halfway, n);
+}
+
+void insertion_sort_entry_array(entry *arr, int n) {
+    if (n == 1) return;
+
+    int j = 0;
+    entry sw;
+    for (int i = 1; i < n; i++) {
+        j = i - 1;
+        while (j >= 0 && smaller(arr[j+1].date, arr[j].date)) {
+            sw = arr[j];
+            arr[j] = arr[j+1];
+            arr[j+1] = sw;
+            j--;
+        }
+    }
 }
 
 void merge_entry_array(entry *arr, int halfway, int n) {
