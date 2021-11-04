@@ -21,6 +21,8 @@ char *next_entry(char *str);
 entry read_agenda_entry(char *agenda);
 char *format_entry(entry e);
 
+void merge_entry_array(entry *arr, int halfway, int n);
+void merge_sort_entry_array(entry *arr, int n);
 void sort_entry_array(entry *arr, int n);
 void print_entry(entry e);
 void destroy_entry(entry e);
