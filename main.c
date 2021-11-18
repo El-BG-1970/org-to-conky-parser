@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include "agenda_entry.h"
-#define BS 100 //blocksize for buffers
+#define BS 1024 //blocksize for buffers
 
 void destroy_entry_array(entry *array, int elements) {
     for (int i = 0; i < elements; i++)
@@ -18,7 +18,7 @@ char *read_file_to_buffer(char *filename) {
     char *buf = (char *)malloc(bufsize);
     char *newbuf;
 
-    while (read(fd, buf + bufread, 100) == BS) {
+    while (read(fd, buf + bufread, BS) == BS) {
         newbuf = (char *)malloc(bufsize + BS);
         strncpy(newbuf, buf, bufsize);
         free(buf);
