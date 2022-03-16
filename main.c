@@ -79,7 +79,7 @@ int main(int argc, char **argv) {
     char *e;
     Date td = today();
     Date tm = tomorrow(td);
-    Date nw = nextweek(td);
+    Date end = nextmonth(td);
     Date last_date = (struct Date){ -1, -1, -1 };
     for (int i = 0; i < idx; i++) {
         if (!eql(agenda[i].date, last_date)) {
@@ -92,7 +92,7 @@ int main(int argc, char **argv) {
                     printf("\n%s [TODAY]:\n", e);
                 else if (eql(last_date, tm))
                     printf("\n%s [TOMORROW]:\n", e);
-                else if (smaller(last_date, nw))
+                else if (smaller(last_date, end))
                     printf("\n%s:\n", e);
                 free(e);
             } else {
@@ -100,7 +100,7 @@ int main(int argc, char **argv) {
             }
         }
         e = format_entry(agenda[i]);
-        if (zero(agenda[i].date) || smaller(agenda[i].date, nw)) puts(e);
+        if (zero(agenda[i].date) || smaller(agenda[i].date, end)) puts(e);
         free(e);
     }
 

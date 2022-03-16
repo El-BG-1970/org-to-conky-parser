@@ -12,6 +12,28 @@ Date extract_date(char *str) {
 	return ret;
 }
 
+Date adjust_date(Date date) {
+	if (date.month == FEB && date.day > 28) {
+		if (date.year % 4 == 0 && date.day > 29) {
+			date.day -= 29; date.month++;
+		} else {
+			date.day -= 28; date.month++;
+		}
+	} else if (date.month == JAN || date.month == MAR || date.month == MAY || date.month == JUL ||
+			   date.month == AUG || date.month == OCT || date.month == DEC) {
+		if (date.day > 31 && date.month == DEC) {
+			date.day -= 31; date.month = 1;
+		} else if (date.day > 31) {
+			date.day -= 31; date.month++;
+		}
+	} else if (date.month == APR || date.month == JUN || date.month == SEP || date.month == NOV) {
+		if (date.day > 30) {
+			date.day -= 30; date.month++;
+		}
+	}
+	return date;
+}
+
 bool smaller(Date a, Date b) {
 	if (zero(b)) return true;
 	if (zero(a)) return false;
@@ -63,46 +85,15 @@ Date today() {
 
 Date tomorrow(Date td) {
 	Date tm = { td.day+1, td.month, td.year };
-	if (tm.month == FEB && tm.day > 28) {
-		if (tm.year % 4 == 0 && tm.day > 29) {
-			tm.day -= 29; tm.month++;
-		} else {
-			tm.day -= 28; tm.month++;
-		}
-    } else if (tm.month == JAN || tm.month == MAR || tm.month == MAY || tm.month == JUL ||
-            tm.month == AUG || tm.month == OCT || tm.month == DEC) {
-        if (tm.day > 31 && tm.month == DEC) {
-            tm.day -= 31; tm.month = 1;
-        } else if (tm.day > 31) {
-            tm.day -= 31; tm.month++;
-        }
-    } else if (tm.month == APR || tm.month == JUN || tm.month == SEP || tm.month == NOV) {
-        if (tm.day > 30) {
-            tm.day -= 30; tm.month++;
-        }
-    }
-    return tm;
+    return adjust_date(tm);
 }
 
 Date nextweek(Date td) {
 	Date nw = { td.day+7, td.month, td.year };
-	if (nw.month == FEB && nw.day > 28) {
-		if (nw.year % 4 == 0 && nw.day > 29) {
-			nw.day -= 29; nw.month++;
-		} else {
-			nw.day -= 28; nw.month++;
-		}
-	} else if (nw.month == JAN || nw.month == MAR || nw.month == MAY || nw.month == JUL ||
-			   nw.month == AUG || nw.month == OCT || nw.month == DEC) {
-		if (nw.day > 31 && nw.month == DEC) {
-			nw.day -= 31; nw.month = 1;
-		} else if (nw.day > 31) {
-			nw.day -= 31; nw.month++;
-		}
-	} else if (nw.month == APR || nw.month == JUN || nw.month == SEP || nw.month == NOV) {
-		if (nw.day > 30) {
-			nw.day -= 30; nw.month++;
-		}
-	}
-	return nw;
+	return adjust_date(nw);
+}
+
+Date nextmonth(Date td) {
+	Date nm = { td.day, td.month+1, td.year };
+	return adjust_date(nm);
 }

@@ -11,6 +11,7 @@ typedef struct Date {
 } Date;
 
 Date extract_date(char *str);
+Date adjust_date(Date date);
 bool smaller(Date a, Date b);
 bool strictly_smaller(Date a, Date b);
 bool eql(Date a, Date b);
@@ -22,6 +23,7 @@ char *print_date_to_string(Date date);
 Date today();
 Date tomorrow(Date td);
 Date nextweek(Date td);
+Date nextmonth(Date td);
 
 #define __DATE_H__
 #endif
