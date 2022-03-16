@@ -3,11 +3,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 typedef struct Date {
 	int day;
 	int month;
 	int year;
+	int weekday;
 } Date;
 
 Date extract_date(char *str);

@@ -2,6 +2,7 @@
 #define _BSD_SOURCE
 
 enum month {JAN=1, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC} month;
+enum weekday {SUN=0, MON, TUE, WED, THU, FRI, SAT} weekday;
 
 Date extract_date(char *str) {
 	Date ret;
