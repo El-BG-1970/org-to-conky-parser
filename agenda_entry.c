@@ -50,10 +50,10 @@ entry read_agenda_entry(char *agenda) {
         lookahead = strstr(lookahead, "<");
         char *date = (char *)malloc(tmp - lookahead + 1);
         strncpy(date, lookahead+1, tmp - lookahead - 1);
-        agenda_entry.date = extract_date(date);
+        agenda_entry.date = extract_date_from_string(date);
         free(date);
     } else {
-        agenda_entry.date = (Date){ 0, 0, 0 };
+		agenda_entry.date = (Date){ 0, 0, 0, 0 };
     }
 
     return agenda_entry;
