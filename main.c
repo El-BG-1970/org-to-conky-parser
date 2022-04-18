@@ -80,6 +80,7 @@ int main(int argc, char **argv) {
     Date td = today();
 	Date tm = tomorrow(td);
 	Date nm = nextmonday(td);
+    Date nnm = nextweek(nm);
     Date end = nextmonth(td);
     Date last_date = (struct Date){ -1, -1, -1, -1};
     for (int i = 0; i < idx; i++) {
@@ -95,6 +96,8 @@ int main(int argc, char **argv) {
                     printf("\n%s [TOMORROW]:\n", e);
 				else if (strictly_smaller(last_date, nm))
 					printf("\n%s [THIS WEEK]:\n", e);
+				else if (strictly_smaller(last_date, nnm))
+					printf("\n%s [NEXT WEEK]:\n", e);
                 else if (smaller(last_date, end))
                     printf("\n%s:\n", e);
                 free(e);

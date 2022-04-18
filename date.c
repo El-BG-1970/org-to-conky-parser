@@ -151,5 +151,5 @@ Date nextmonth(Date td) {
 Date nextmonday(Date td) {
 	if (td.weekday == MON) return nextweek(td);
 	else if (td.weekday == SUN) return adjust_date((Date){ td.day+1, td.month, td.year, MON });
-	else return adjust_date((Date){ td.day+(td.weekday-MON)+1, td.month, td.year, MON });
+	else return adjust_date((Date){ td.day+(7-td.weekday)+1, td.month, td.year, MON });
 }
