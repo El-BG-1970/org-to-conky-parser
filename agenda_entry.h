@@ -1,4 +1,4 @@
-#ifndef __AGENDA_ENTRY_H__
+#pragma once
 #include <stdlib.h>
 #include <string.h>
 #include "date.h"
@@ -8,10 +8,10 @@ typedef struct entry {
 	//struct entry *children;
 	//int8_t level;// nesting level of the entry
 	//char *todo;  // TODO keyword
+	Date date;  // scheduled or deadline date
 	char *tag;   // tag keyword
 	char *title; // the actual entry
 	//char *text;  // description (if there is one)
-	Date date;  // scheduled or deadline date
 } entry;
 
 char *next_word(char *str);
@@ -27,6 +27,3 @@ void merge_sort_entry_array(entry *arr, int n);
 void sort_entry_array(entry *arr, int n);
 void print_entry(entry e);
 void destroy_entry(entry e);
-
-#define __AGENDA_ENTRY_H__
-#endif

@@ -1,4 +1,4 @@
-#ifndef __DATE_H__
+#pragma once
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -28,11 +28,8 @@ void print_date(Date date);
 char *print_date_to_string(Date date);
 char *short_date_to_string(Date date);
 
-Date today();
+Date today(void);
 Date tomorrow(Date td);
 Date nextweek(Date td);
 Date nextmonth(Date td);
 Date nextmonday(Date td);
-
-#define __DATE_H__
-#endif
