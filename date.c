@@ -1,8 +1,7 @@
 #include "date.h"
-#define _BSD_SOURCE
 
-enum month {JAN=1, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC} month;
-enum weekday {SUN=0, MON, TUE, WED, THU, FRI, SAT} weekday;
+enum month {JAN=1, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC};
+enum weekday {SUN=0, MON, TUE, WED, THU, FRI, SAT};
 
 int get_weekday_from_string(char *str) {
 	if (!strcmp(str, "Mon")) return MON;
