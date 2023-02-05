@@ -1,5 +1,7 @@
 #include <stddef.h>
 
+char *rstrchr(const char *, char *, char);
+
 char *rstrchr(const char *s, char *start, char c) {
 	char *ret = start;
 	while ((ret > s) && (*ret != c)) ret--;

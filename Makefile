@@ -6,7 +6,7 @@ CC=clang --std=gnu99
 CC=clang --std=c99
 .endif
 
-CFLAGS=-Wall -Wextra -Werror -Weverything -pedantic
+CFLAGS=-Wall -Wextra -Werror -Weverything -Wpadded -pedantic
 LIBS=
 BLDFLAGS=-g
 RELFLAGS=-O2

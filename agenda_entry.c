@@ -14,6 +14,7 @@ entry read_agenda_entry(char *agenda) {
     char *cursor = agenda;
     char *lookahead, *tmp;
     char *nextentry = next_entry(cursor);
+	unsigned long size;
     if (nextentry == NULL)
         nextentry = agenda + strlen(agenda) - 1;
 
@@ -27,17 +28,19 @@ entry read_agenda_entry(char *agenda) {
     lookahead = strstr(cursor, ":\n");
     if (lookahead && (lookahead < nextentry)) {
         tmp = rstrchr(cursor, lookahead-1, ':');
-        agenda_entry.tag = (char *)malloc(lookahead - tmp);
-        strncpy(agenda_entry.tag, tmp+1, lookahead - tmp - 1);
-        agenda_entry.tag[lookahead - tmp - 1] = '\0'; // here we're actually modifying lookahead-tmp cause the array is zero indexed
+		size = (unsigned long)labs(lookahead - tmp);
+        agenda_entry.tag = (char *)malloc(size);
+        strncpy(agenda_entry.tag, tmp+1, size - 1);
+        agenda_entry.tag[size - 1] = '\0'; // here we're actually modifying lookahead-tmp cause the array is zero indexed
         lookahead = tmp;
     } else {
         lookahead = strstr(cursor, "\n");
         agenda_entry.tag = NULL;
     }
-    agenda_entry.title = (char *)malloc(lookahead - cursor + 1);
-    strncpy(agenda_entry.title, cursor, lookahead - cursor);
-    agenda_entry.title[lookahead - cursor] = '\0';  // here we're actually modifying lookahead-cursor cause the array is zero indexed
+	size = (unsigned long)(lookahead - cursor);
+    agenda_entry.title = (char *)malloc(size + 1);
+    strncpy(agenda_entry.title, cursor, size);
+    agenda_entry.title[size] = '\0';  // here we're actually modifying lookahead-cursor cause the array is zero indexed
 
     //find out if there is a deadline and extract it
     cursor = next_line(cursor);
@@ -48,8 +51,9 @@ entry read_agenda_entry(char *agenda) {
         //there is a deadline or event is scheduled
         tmp = strstr(lookahead, ">");
         lookahead = strstr(lookahead, "<");
-        char *date = (char *)malloc(tmp - lookahead + 1);
-        strncpy(date, lookahead+1, tmp - lookahead - 1);
+		size = (unsigned long)labs(tmp - lookahead);
+        char *date = (char *)malloc(size + 1);
+        strncpy(date, lookahead+1, size - 1);
         agenda_entry.date = extract_date_from_string(date);
         free(date);
     } else {
@@ -132,6 +136,12 @@ void merge_entry_array(entry *arr, int halfway, int n) {
             j++;
         }
     }
+}
+
+void destroy_entry_array(entry *arr, int n) {
+	for (int i = 0; i < n; i++)
+        destroy_entry(arr[i]);
+    free(arr);
 }
 
 void print_entry(entry e) {

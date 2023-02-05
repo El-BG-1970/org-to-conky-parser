@@ -4,17 +4,11 @@
 #include "agenda_entry.h"
 #define BS 1024 //blocksize for buffers
 
-void destroy_entry_array(entry *array, int elements) {
-    for (int i = 0; i < elements; i++)
-        destroy_entry(array[i]);
-    free(array);
-}
-
-char *read_file_to_buffer(char *filename) {
-    int fd = open(filename, O_RDONLY);
+static char *read_file_to_buffer(char *filename) {
+	int fd = open(filename, O_RDONLY);
 	if (fd < 0) return NULL; // if error opening file, return NULLptr
-    int bufsize = BS,
-        bufread = 0;
+    size_t bufsize = BS;
+	size_t bufread = 0;
     char *buf = (char *)malloc(bufsize);
     char *newbuf;
 
@@ -30,15 +24,15 @@ char *read_file_to_buffer(char *filename) {
     return buf;
 }
 
-entry *read_entries_to_array(char *buffer, int *entries) {
-    int numentries = 5,
-        idx = 0;
+static entry *read_entries_to_array(char *buffer, int *entries) {
+    unsigned long numentries = 5;
+	int idx = 0;
     entry *ret = (entry *)malloc(numentries * sizeof(entry));
     char *cursor = buffer;
     while (cursor) {
-        if (idx == numentries) {
+        if ((size_t)idx == numentries) {
             entry *newret = (entry *)malloc((numentries + 5) * sizeof(entry));
-            memcpy(newret, ret, (idx)*sizeof(entry));
+            memcpy(newret, ret, ((size_t)idx)*sizeof(entry));
             free(ret);
             ret = newret;
             numentries += 5;
