@@ -119,7 +119,7 @@ char *short_date_to_string(Date date) {
 	return ret;
 }
 
-Date today() {
+Date today(void) {
 	Date ret;
 	time_t tm;
 	struct tm localtm;

@@ -10,7 +10,7 @@ static char *read_file_to_buffer(char *filename) {
     size_t bufsize = BS;
 	size_t bufread = 0;
     char *buf = (char *)malloc(bufsize);
-    char *newbuf;
+    char *newbuf = NULL;
 
     while (read(fd, buf + bufread, BS) == BS) {
         newbuf = (char *)malloc(bufsize + BS);
